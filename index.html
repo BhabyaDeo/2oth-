@@ -19,11 +19,10 @@
 
 <body>
 
-    <!-- ✅ Removed autoplay (iOS fix) -->
-    <audio class="song" loop>
-        <source src="./music/hbd.mpeg">
-        </source>
-        Your browser isn't invited for super fun audio time.
+    <!-- UNIVERSAL AUDIO (Works on iOS + All Browsers) -->
+    <audio class="song" loop preload="auto">
+        <source src="./music/hbd.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
 
     <div class="container">
@@ -53,8 +52,7 @@
             <p class="idea-2">But then I stopped.</p>
             <p class="idea-3">
                 I realised, I wanted to do something<br>
-                <strong>special</strong>
-                .
+                <strong>special</strong>.
             </p>
             <p class="idea-4">Because,</p>
             <p class="idea-5">
@@ -72,55 +70,19 @@
             <img src="img/hat.svg" alt="hat" class="hat" />
             <div class="wish">
                 <h3 class="wish-hbd">Happy Birthday!</h3>
-                <h5 id="wishText">Hope this message lingers,just like my feelings ;)</h5>
+                <h5 id="wishText">Hope this message lingers, just like my feelings ;)</h5>
             </div>
         </div>
 
         <div class="seven">
             <div class="baloons">
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon2.svg" alt="" />
-                <img src="img/ballon1.svg" alt="" />
-                <img src="img/ballon3.svg" alt="" />
+                <img src="img/ballon1.svg" />
+                <img src="img/ballon2.svg" />
+                <img src="img/ballon3.svg" />
             </div>
         </div>
 
         <div class="eight">
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
             <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
             <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
             <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" /></svg>
@@ -139,19 +101,24 @@
     <!-- Sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script type="application/javascript" src="./script/main.js"></script>
+    <script src="./script/main.js"></script>
 
-    <!-- ✅ iOS / macOS Audio Fix -->
+    <!-- UNIVERSAL AUDIO PLAY FIX -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const audio = document.querySelector(".song");
 
-        // Try autoplay (works on Android/Windows)
+        function enableAudio() {
+          audio.play().catch(() => {});
+          document.removeEventListener("click", enableAudio);
+          document.removeEventListener("touchstart", enableAudio);
+        }
+
+        // For Android/Windows (may autoplay)
         audio.play().catch(() => {
-          // If blocked (Safari), play on first tap
-          document.body.addEventListener("click", function () {
-            audio.play();
-          }, { once: true });
+          // For iOS/macOS Safari
+          document.addEventListener("click", enableAudio);
+          document.addEventListener("touchstart", enableAudio);
         });
       });
     </script>
